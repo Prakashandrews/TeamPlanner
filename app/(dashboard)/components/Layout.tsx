@@ -24,13 +24,13 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       </button>
 
       {/* Sidebar */}
-      <aside className={`fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-200 ease-in-out bg-[#181D2F] shadow-lg ${
+      <aside className={`fixed inset-y-0 left-0 z-40 w-64 transform transition-transform duration-200 ease-in-out bg-gradient-to-b from-blue-900 to-blue-800 shadow-lg ${
         isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
       } lg:translate-x-0 rounded-tr-2xl rounded-br-2xl flex flex-col`}>
         {/* Logo and App Name */}
-        <div className="flex items-center px-8 py-8 bg-[#13172B] rounded-tr-2xl">
+        <div className="flex items-center px-8 py-8 bg-blue-950/50 rounded-tr-2xl">
           {/* Profile Icon (avatar) */}
-          <span className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-indigo-700 overflow-hidden">
+          <span className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-blue-600 overflow-hidden">
             <img
               className="h-10 w-10 object-cover rounded-full"
               src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
@@ -47,8 +47,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 href="/dashboard"
                 className={`flex items-center px-4 py-3 rounded-lg font-medium text-base transition-colors duration-200 ${
                   isActive('/dashboard')
-                    ? 'bg-[#23284A] text-white'
-                    : 'text-gray-200 hover:bg-[#23284A] hover:text-white'
+                    ? 'bg-white/20 text-white'
+                    : 'text-white/80 hover:bg-white/20 hover:text-white'
                 }`}
               >
                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -57,68 +57,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 Dashboard
               </Link>
             </li>
-            <li>
-              <button disabled className="flex items-center px-4 py-3 rounded-lg font-medium text-base text-gray-500 cursor-not-allowed w-full">
-                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <circle cx="12" cy="12" r="4" strokeWidth="2" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 12h.01M20 12h.01M12 4v.01M12 20v.01" />
-                </svg>
-                UI Elements
-              </button>
-            </li>
-            <li>
-              <button disabled className="flex items-center px-4 py-3 rounded-lg font-medium text-base text-gray-500 cursor-not-allowed w-full">
-                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <rect x="4" y="8" width="16" height="8" rx="2" strokeWidth="2" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 12h16" />
-                </svg>
-                Tables
-              </button>
-            </li>
-            <li>
-              <button disabled className="flex items-center px-4 py-3 rounded-lg font-medium text-base text-gray-500 cursor-not-allowed w-full">
-                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <rect x="3" y="6" width="18" height="12" rx="2" strokeWidth="2" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M7 10h10M7 14h6" />
-                </svg>
-                Forms
-              </button>
-            </li>
-            <li>
-              <button disabled className="flex items-center px-4 py-3 rounded-lg font-medium text-base text-gray-500 cursor-not-allowed w-full">
-                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <rect x="3" y="7" width="18" height="10" rx="2" strokeWidth="2" />
-                  <rect x="7" y="11" width="10" height="2" rx="1" strokeWidth="2" />
-                </svg>
-                Cards
-              </button>
-            </li>
-            <li>
-              <button disabled className="flex items-center px-4 py-3 rounded-lg font-medium text-base text-gray-500 cursor-not-allowed w-full">
-                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <ellipse cx="12" cy="12" rx="8" ry="4" strokeWidth="2" />
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 12v4c0 2.2091 3.582 4 8 4s8-1.7909 8-4v-4" />
-                </svg>
-                Modal
-              </button>
-            </li>
-            <li>
-              <button disabled className="flex items-center px-4 py-3 rounded-lg font-medium text-base text-gray-500 cursor-not-allowed w-full">
-                <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <rect x="4" y="8" width="16" height="8" rx="2" strokeWidth="2" />
-                  <rect x="8" y="12" width="8" height="2" rx="1" strokeWidth="2" />
-                </svg>
-                Blank
-              </button>
-            </li>
             {/* Team Planning menu item */}
             <li>
               <Link 
                 href="/teamplan"
                 className={`flex items-center px-4 py-3 rounded-lg font-medium text-base transition-colors duration-200 ${
                   isActive('/teamplan')
-                    ? 'bg-[#23284A] text-white'
-                    : 'text-gray-200 hover:bg-[#23284A] hover:text-white'
+                    ? 'bg-white/20 text-white'
+                    : 'text-white/80 hover:bg-white/20 hover:text-white'
                 }`}
               >
                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -133,8 +79,8 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 href="/settings"
                 className={`flex items-center px-4 py-3 rounded-lg font-medium text-base transition-colors duration-200 ${
                   isActive('/settings')
-                    ? 'bg-[#23284A] text-white'
-                    : 'text-gray-200 hover:bg-[#23284A] hover:text-white'
+                    ? 'bg-white/20 text-white'
+                    : 'text-white/80 hover:bg-white/20 hover:text-white'
                 }`}
               >
                 <svg className="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
