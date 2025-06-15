@@ -1387,16 +1387,30 @@ export default function TeamPlanningPage() {
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    // Generate a unique ID for new features
+    const generateUniqueId = () => {
+      const existingIds = rawFeatures.map(f => f.id);
+      let newId = 1;
+      while (existingIds.includes(newId)) {
+        newId++;
+      }
+      return newId;
+    };
+
+    // Get the selected sprint's quarter
+    const selectedSprint = SPRINTS_2025.find(s => s.label === newFeature.startSprint);
+    const quarter = selectedQuarter.split(' ')[0]; // Use the currently selected quarter
+
     // Create a temporary feature object for scheduling
     const newFeatureFull: TeamPlan = {
-      id: editFeatureId || rawFeatures.length + 1,
+      id: editFeatureId || generateUniqueId(),
       epic: newFeature.epic,
       team: newFeature.team,
       sprint: newFeature.startSprint,
-      sprintStart: SPRINTS_2025.find(s => s.label === newFeature.startSprint)?.start || '',
-      sprintEnd: SPRINTS_2025.find(s => s.label === newFeature.startSprint)?.end || '',
-      quarter: SPRINTS_2025.find(s => s.label === newFeature.startSprint)?.quarter || 'N/A',
-      sprintNumber: SPRINTS_2025.find(s => s.label === newFeature.startSprint)?.sprintNumber || 0,
+      sprintStart: selectedSprint?.start || '',
+      sprintEnd: selectedSprint?.end || '',
+      quarter: quarter, // Use the selected quarter
+      sprintNumber: selectedSprint?.sprintNumber || 0,
       priority: newFeature.priority,
       devEffort: newFeature.devEffort,
       qaEffort: newFeature.qaEffort,
