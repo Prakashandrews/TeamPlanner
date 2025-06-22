@@ -255,7 +255,7 @@ const sampleData: TeamPlan[] = [
     startSprint: 'Q1-SPRINT-6'
   },
 
-  // Q2 2025 Features (April - June) - Existing data
+  // Q2 2025 Features (April - June) - Only keeping User Authentication System
   {
     id: 7,
     epic: 'User Authentication System',
@@ -267,197 +267,17 @@ const sampleData: TeamPlan[] = [
     quarter: 'Q2',
     sprintNumber: 1,
     priority: 'High',
-    devEffort: 50, // Increased for overflow testing
-    qaEffort: 20, // Increased for overflow testing
+    devEffort: 50,
+    qaEffort: 20,
     totalEffort: 70,
     releaseDate: '',
     sprintAllocation: {},
     startSprint: 'Q2-SPRINT-1'
   },
-  {
-    id: 8,
-    epic: 'Payment Gateway Integration',
-    team: 'YC',
-    startDate: '2025-04-01', // Changed to start in Q2-SPRINT-1
-    sprint: 'Q2-SPRINT-1', // Changed to start in Q2-SPRINT-1
-    sprintStart: '2025-04-01',
-    sprintEnd: '2025-04-14',
-    quarter: 'Q2',
-    sprintNumber: 1,
-    priority: 'Medium', // Changed priority for 60/40 split test
-    devEffort: 50, // Increased for overflow testing
-    qaEffort: 30, // Increased for overflow testing
-    totalEffort: 110,
-    releaseDate: '',
-    sprintAllocation: {},
-    startSprint: 'Q2-SPRINT-1'
-  },
-  {
-    id: 25,
-    epic: 'Q2-R1 Feature A - New',
-    team: 'YC',
-    startDate: '2025-04-01',
-    sprint: 'Q2-SPRINT-1',
-    sprintStart: '2025-04-01',
-    sprintEnd: '2025-04-14',
-    quarter: 'Q2',
-    sprintNumber: 1,
-    priority: 'High',
-    devEffort: 10,
-    qaEffort: 5,
-    totalEffort: 15,
-    releaseDate: '',
-    sprintAllocation: {},
-    startSprint: 'Q2-SPRINT-1'
-  },
-  {
-    id: 26,
-    epic: 'Q2-R1 Feature B - New',
-    team: 'YC',
-    startDate: '2025-04-01',
-    sprint: 'Q2-SPRINT-1',
-    sprintStart: '2025-04-01',
-    sprintEnd: '2025-04-14',
-    quarter: 'Q2',
-    sprintNumber: 1,
-    priority: 'High',
-    devEffort: 10,
-    qaEffort: 5,
-    totalEffort: 15,
-    releaseDate: '',
-    sprintAllocation: {},
-    startSprint: 'Q2-SPRINT-1'
-  },
-  {
-    id: 27,
-    epic: 'Q2-R1 Feature C - New',
-    team: 'YC',
-    startDate: '2025-04-01',
-    sprint: 'Q2-SPRINT-1',
-    sprintStart: '2025-04-01',
-    sprintEnd: '2025-04-14',
-    quarter: 'Q2',
-    sprintNumber: 1,
-    priority: 'Medium',
-    devEffort: 10,
-    qaEffort: 5,
-    totalEffort: 15,
-    releaseDate: '',
-    sprintAllocation: {},
-    startSprint: 'Q2-SPRINT-1'
-  },
-  {
-    id: 28,
-    epic: 'Q2-R1 Feature D - New',
-    team: 'YC',
-    startDate: '2025-04-01',
-    sprint: 'Q2-SPRINT-1',
-    sprintStart: '2025-04-01',
-    sprintEnd: '2025-04-14',
-    quarter: 'Q2',
-    sprintNumber: 1,
-    priority: 'Medium',
-    devEffort: 10,
-    qaEffort: 5,
-    totalEffort: 15,
-    releaseDate: '',
-    sprintAllocation: {},
-    startSprint: 'Q2-SPRINT-1'
-  },
-  {
-    id: 29,
-    epic: 'Q2-R1 Feature E - New',
-    team: 'YC',
-    startDate: '2025-04-01',
-    sprint: 'Q2-SPRINT-1',
-    sprintStart: '2025-04-01',
-    sprintEnd: '2025-04-14',
-    quarter: 'Q2',
-    sprintNumber: 1,
-    priority: 'Low',
-    devEffort: 10,
-    qaEffort: 5,
-    totalEffort: 15,
-    releaseDate: '',
-    sprintAllocation: {},
-    startSprint: 'Q2-SPRINT-1'
-  },
-  {
-    id: 9,
-    epic: 'Inventory Management System',
-    team: 'YC',
-    startDate: '2025-05-01',
-    sprint: 'Q2-SPRINT-3',
-    sprintStart: '2025-05-01',
-    sprintEnd: '2025-05-14',
-    quarter: 'Q2',
-    sprintNumber: 3,
-    priority: 'Medium',
-    devEffort: 6,
-    qaEffort: 2,
-    totalEffort: 8,
-    releaseDate: '',
-    sprintAllocation: {},
-    startSprint: 'Q2-SPRINT-3'
-  },
-  {
-    id: 10,
-    epic: 'Order Processing System',
-    team: 'YC',
-    startDate: '2025-05-15',
-    sprint: 'Q2-SPRINT-4',
-    sprintStart: '2025-05-15',
-    sprintEnd: '2025-05-28',
-    quarter: 'Q2',
-    sprintNumber: 4,
-    priority: 'High',
-    devEffort: 7,
-    qaEffort: 3,
-    totalEffort: 10,
-    releaseDate: '',
-    sprintAllocation: {},
-    startSprint: 'Q2-SPRINT-4'
-  },
-  {
-    id: 11,
-    epic: 'Customer Support Portal',
-    team: 'YC',
-    startDate: '2025-06-01',
-    sprint: 'Q2-SPRINT-5',
-    sprintStart: '2025-06-01',
-    sprintEnd: '2025-06-14',
-    quarter: 'Q2',
-    sprintNumber: 5,
-    priority: 'Medium',
-    devEffort: 5,
-    qaEffort: 2,
-    totalEffort: 7,
-    releaseDate: '',
-    sprintAllocation: {},
-    startSprint: 'Q2-SPRINT-5'
-  },
-  {
-    id: 12,
-    epic: 'Analytics Dashboard',
-    team: 'YC',
-    startDate: '2025-06-15',
-    sprint: 'Q2-SPRINT-6',
-    sprintStart: '2025-06-15',
-    sprintEnd: '2025-06-28',
-    quarter: 'Q2',
-    sprintNumber: 6,
-    priority: 'Low',
-    devEffort: 4,
-    qaEffort: 2,
-    totalEffort: 6,
-    releaseDate: '',
-    sprintAllocation: {},
-    startSprint: 'Q2-SPRINT-6'
-  },
 
   // Q3 2025 Features (July - September)
   {
-    id: 13,
+    id: 8,
     epic: 'Mobile App Development',
     team: 'YC',
     startDate: '2025-07-01',
@@ -475,7 +295,7 @@ const sampleData: TeamPlan[] = [
     startSprint: 'Q3-SPRINT-1'
   },
   {
-    id: 14,
+    id: 9,
     epic: 'Push Notification System',
     team: 'YC',
     startDate: '2025-07-15',
@@ -493,7 +313,7 @@ const sampleData: TeamPlan[] = [
     startSprint: 'Q3-SPRINT-2'
   },
   {
-    id: 15,
+    id: 10,
     epic: 'Offline Mode Support',
     team: 'YC',
     startDate: '2025-08-01',
@@ -511,7 +331,7 @@ const sampleData: TeamPlan[] = [
     startSprint: 'Q3-SPRINT-3'
   },
   {
-    id: 16,
+    id: 11,
     epic: 'Social Media Integration',
     team: 'YC',
     startDate: '2025-08-15',
@@ -529,7 +349,7 @@ const sampleData: TeamPlan[] = [
     startSprint: 'Q3-SPRINT-4'
   },
   {
-    id: 17,
+    id: 12,
     epic: 'Voice Search Feature',
     team: 'YC',
     startDate: '2025-09-01',
@@ -547,7 +367,7 @@ const sampleData: TeamPlan[] = [
     startSprint: 'Q3-SPRINT-5'
   },
   {
-    id: 18,
+    id: 13,
     epic: 'AR Product Visualization',
     team: 'YC',
     startDate: '2025-09-15',
@@ -567,7 +387,7 @@ const sampleData: TeamPlan[] = [
 
   // Q4 2025 Features (October - December)
   {
-    id: 19,
+    id: 14,
     epic: 'AI Recommendation Engine',
     team: 'YC',
     startDate: '2025-10-01',
@@ -585,7 +405,7 @@ const sampleData: TeamPlan[] = [
     startSprint: 'Q4-SPRINT-1'
   },
   {
-    id: 20,
+    id: 15,
     epic: 'Chatbot Integration',
     team: 'YC',
     startDate: '2025-10-15',
@@ -603,7 +423,7 @@ const sampleData: TeamPlan[] = [
     startSprint: 'Q4-SPRINT-2'
   },
   {
-    id: 21,
+    id: 16,
     epic: 'Predictive Analytics',
     team: 'YC',
     startDate: '2025-11-01',
@@ -621,7 +441,7 @@ const sampleData: TeamPlan[] = [
     startSprint: 'Q4-SPRINT-3'
   },
   {
-    id: 22,
+    id: 17,
     epic: 'Blockchain Integration',
     team: 'YC',
     startDate: '2025-11-15',
@@ -639,7 +459,7 @@ const sampleData: TeamPlan[] = [
     startSprint: 'Q4-SPRINT-4'
   },
   {
-    id: 23,
+    id: 18,
     epic: 'IoT Device Support',
     team: 'YC',
     startDate: '2025-12-01',
@@ -657,7 +477,7 @@ const sampleData: TeamPlan[] = [
     startSprint: 'Q4-SPRINT-5'
   },
   {
-    id: 24,
+    id: 19,
     epic: 'Performance Optimization',
     team: 'YC',
     startDate: '2025-12-15',
