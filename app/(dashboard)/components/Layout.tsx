@@ -33,7 +33,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <span className="inline-flex items-center justify-center h-10 w-10 rounded-full bg-blue-600 overflow-hidden">
             <img
               className="h-10 w-10 object-cover rounded-full"
-              src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
+              src="https://ui-avatars.com/api/?name=User&background=2980b9&color=fff&size=40"
               alt="User avatar"
             />
           </span>

@@ -11,8 +11,8 @@ const API_URL = {
 };
 
 const ROUTES = {
-  HOME_SCREEN: '/home',
-  TEAM_PLAN: '/teamplan'
+  HOME_SCREEN: '/dashboard',
+  TEAM_PLAN: '/teamplan'  
 };
 
 interface LoginResponse {
@@ -125,7 +125,7 @@ export default function Home() {
         localStorage.setItem('user', JSON.stringify(response.data.data.user));
         
         // Redirect to home
-        router.push(ROUTES.TEAM_PLAN);
+        router.push(ROUTES.HOME_SCREEN);
       } else {
         setLoginError(response.data.message || "Login failed");
       }
@@ -205,7 +205,7 @@ export default function Home() {
 
         // Redirect after 2 seconds
         setTimeout(() => {
-          router.push(ROUTES.TEAM_PLAN);
+          router.push(ROUTES.HOME_SCREEN);
         }, 2000);
       } else {
         setSignupError(response.data.message || "Registration failed");
