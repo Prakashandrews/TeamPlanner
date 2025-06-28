@@ -43,14 +43,17 @@ function LoginModal({ open, onClose }: { open: boolean; onClose: () => void }) {
         password: formData.password,
       });
 
-      if (response.data && response.data.token) {
+      if (response.data.success && response.data.data.token) {
         // Store the token in localStorage
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('user', JSON.stringify(response.data.user));
+        localStorage.setItem('token', response.data.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.data.user));
         
         // Close modal and redirect to dashboard
         onClose();
         router.push('/dashboard');
+      } else {
+        setIsError(true);
+        setErrorMessage(response.data.message || "Login failed. Please check your credentials.");
       }
     } catch (error: any) {
       setIsError(true);
@@ -201,8 +204,13 @@ function RegisterModal({ open, onClose }: { open: boolean; onClose: () => void }
         password: formData.password,
       });
 
-      if (response.data) {
+      if (response.data.success && response.data.data.token) {
         setAccCreated(true);
+        
+        // Store token and user data
+        localStorage.setItem('token', response.data.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.data.user));
+        
         setFormData({
           firstName: "",
           lastName: "",
@@ -213,11 +221,14 @@ function RegisterModal({ open, onClose }: { open: boolean; onClose: () => void }
           confirmPassword: "",
         });
         
-        // Show success message and redirect after 2 seconds
+        // Show success message and redirect to dashboard after 2 seconds
         setTimeout(() => {
           onClose();
-          router.push('/login'); // Redirect to login page
+          router.push('/dashboard');
         }, 2000);
+      } else {
+        setIsError(true);
+        setErrorMessage(response.data.message || "Registration failed. Please try again.");
       }
     } catch (error: any) {
       setIsError(true);
@@ -307,7 +318,7 @@ function RegisterModal({ open, onClose }: { open: boolean; onClose: () => void }
           )}
           {accCreated && (
             <div className="text-green-600 text-sm text-center bg-green-50 p-2 rounded-lg">
-              Account created successfully! Redirecting to login...
+              Account created successfully! Redirecting to dashboard...
             </div>
           )}
           <button 
