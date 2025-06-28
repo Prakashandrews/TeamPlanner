@@ -7,8 +7,58 @@ import axios from "axios";
 
 function LoginModal({ open, onClose }: { open: boolean; onClose: () => void }) {
   const [showRegister, setShowRegister] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   if (!open) return null;
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsError(false);
+    setErrorMessage("");
+
+    // Validation
+    if (!formData.email || !formData.password) {
+      setIsError(true);
+      setErrorMessage("Email and password are required");
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_HOSTNAME}api/auth/signin`, {
+        email: formData.email,
+        password: formData.password,
+      });
+
+      if (response.data && response.data.token) {
+        // Store the token in localStorage
+        localStorage.setItem('token', response.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.user));
+        
+        // Close modal and redirect to dashboard
+        onClose();
+        router.push('/dashboard');
+      }
+    } catch (error: any) {
+      setIsError(true);
+      setErrorMessage(error.response?.data?.message || "Login failed. Please check your credentials.");
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleSwitchToRegister = () => {
     onClose();
@@ -24,16 +74,51 @@ function LoginModal({ open, onClose }: { open: boolean; onClose: () => void }) {
           </svg>
         </button>
         <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-        <form className="space-y-4">
+        <form className="space-y-4" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium mb-1">Email</label>
-            <input type="email" className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter your email" />
+            <input 
+              type="email" 
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" 
+              placeholder="Enter your email" 
+            />
           </div>
           <div>
             <label className="block text-sm font-medium mb-1">Password</label>
-            <input type="password" className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" placeholder="Enter your password" />
+            <input 
+              type="password" 
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500" 
+              placeholder="Enter your password" 
+            />
           </div>
-          <button type="submit" className="w-full py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">Login</button>
+          {isError && (
+            <div className="text-red-500 text-sm text-center bg-red-50 p-2 rounded-lg">
+              {errorMessage}
+            </div>
+          )}
+          <button 
+            type="submit" 
+            className="w-full py-2 rounded-lg bg-blue-600 text-white font-semibold hover:bg-blue-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isLoading}
+          >
+            {isLoading ? (
+              <div className="flex items-center justify-center">
+                <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Signing in...
+              </div>
+            ) : (
+              "Login"
+            )}
+          </button>
         </form>
         <div className="text-center mt-4 text-sm">
           Don&apos;t have an account?{" "}
