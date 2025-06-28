@@ -2,41 +2,67 @@
 import Link from "next/link";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { FaUser, FaLock } from "react-icons/fa";
+import { FaUser, FaLock, FaEnvelope, FaPhone, FaEye, FaEyeSlash } from "react-icons/fa";
 import axios, { AxiosResponse } from "axios";
 
-function LoginModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  if (!open) return null;
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 relative">
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-        <form className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium mb-1">Email</label>
-            <input type="email" className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="Enter your email" />
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1">Password</label>
-            <input type="password" className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-indigo-500" placeholder="Enter your password" />
-          </div>
-          <button type="submit" className="w-full py-2 rounded-lg bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition">Login</button>
-        </form>
-        <div className="text-center mt-4 text-sm">
-          Don&apos;t have an account? <button onClick={onClose} className="text-pink-500 font-semibold">Register</button>
-        </div>
-      </div>
-    </div>
-  );
+const API_URL = {
+  SIGNIN: `${process.env.NEXT_PUBLIC_HOSTNAME || 'http://localhost:8080/'}api/auth/signin`,
+  SIGNUP: `${process.env.NEXT_PUBLIC_HOSTNAME || 'http://localhost:8080/'}api/auth/signup`,
+};
+
+const ROUTES = {
+  HOME_SCREEN: '/home',
+  TEAM_PLAN: '/teamplan'
+};
+
+interface LoginResponse {
+  success: boolean;
+  message: string;
+  data: {
+    user: {
+      id: string;
+      firstName?: string;
+      lastName?: string;
+      username: string;
+      email: string;
+      mobileNumber?: string;
+    };
+    token: string;
+  };
 }
 
-function RegisterModal({ open, onClose }: { open: boolean; onClose: () => void }) {
-  const [formData, setFormData] = useState({
+interface SignupResponse {
+  success: boolean;
+  message: string;
+  data: {
+    user: {
+      id: string;
+      firstName?: string;
+      lastName?: string;
+      username: string;
+      email: string;
+      mobileNumber?: string;
+    };
+    token: string;
+  };
+}
+
+export default function Home() {
+  const router = useRouter();
+  const [isLoginMode, setIsLoginMode] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
+  // Login state
+  const [loginData, setLoginData] = useState({
+    email: "",
+    password: "",
+  });
+  const [loginError, setLoginError] = useState("");
+  const [isLoginLoading, setIsLoginLoading] = useState(false);
+
+  // Signup state
+  const [signupData, setSignupData] = useState({
     firstName: "",
     lastName: "",
     username: "",
@@ -45,148 +71,155 @@ function RegisterModal({ open, onClose }: { open: boolean; onClose: () => void }
     password: "",
     confirmPassword: "",
   });
-  const [isError, setIsError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
-  const [accCreated, setAccCreated] = useState(false);
-
-  if (!open) return null;
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (name === "mobileNumber" && value.length > 10) return;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+  const [signupError, setSignupError] = useState("");
+  const [isSignupLoading, setIsSignupLoading] = useState(false);
+  const [signupSuccess, setSignupSuccess] = useState(false);
 
   const validateEmail = (email: string) => {
-    // Simple email regex
     return /\S+@\S+\.\S+/.test(email);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setAccCreated(false);
-    setIsError(false);
-    setErrorMessage("");
-
-    // Validation
-    if (!formData.username || !formData.email || !formData.password || !formData.confirmPassword ||
-        !formData.firstName || !formData.lastName || !formData.mobileNumber) {
-      setIsError(true);
-      setErrorMessage("All fields are required");
-      return;
-    }
-    if (formData.password !== formData.confirmPassword) {
-      setIsError(true);
-      setErrorMessage("Passwords do not match");
-      return;
-    }
-    if (!validateEmail(formData.email)) {
-      setIsError(true);
-      setErrorMessage("Invalid email format");
-      return;
-    }
-    if (formData.mobileNumber.length < 10) {
-      setIsError(true);
-      setErrorMessage("Invalid mobile number");
-      return;
-    }
-    setIsError(false);
-    setIsLoading(true);
-    // Here you would send the API request
-    // await axios.post(API_URL.SIGNUP, { ... })
-    setTimeout(() => {
-      setIsLoading(false);
-      setAccCreated(true);
-      setFormData({
-        firstName: "",
-        lastName: "",
-        username: "",
-        email: "",
-        mobileNumber: "",
-        password: "",
-        confirmPassword: "",
-      });
-      setTimeout(onClose, 2000);
-    }, 1500);
+  const validatePassword = (password: string) => {
+    // At least 5 characters, no other restrictions
+    return password.length >= 5;
   };
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-md">
-      <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md p-8 relative">
-        <button onClick={onClose} className="absolute top-4 right-4 text-gray-400 hover:text-gray-600">
-          <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-          </svg>
-        </button>
-        <h2 className="text-2xl font-bold mb-6 text-center">Register</h2>
-        <form className="space-y-3" onSubmit={handleSubmit}>
-          <div className="flex gap-2">
-            <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} placeholder="First Name" className="w-1/2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-400" />
-            <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} placeholder="Last Name" className="w-1/2 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-400" />
-          </div>
-          <input type="text" name="username" value={formData.username} onChange={handleChange} placeholder="Username" className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-400" />
-          <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder="Email" className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-400" />
-          <input type="text" name="mobileNumber" value={formData.mobileNumber} onChange={handleChange} placeholder="Mobile Number" className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-400" maxLength={10} />
-          <input type="password" name="password" value={formData.password} onChange={handleChange} placeholder="Password" className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-400" />
-          <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} placeholder="Confirm Password" className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-pink-400" />
-          {isError && <div className="text-red-500 text-sm text-center">{errorMessage}</div>}
-          {accCreated && <div className="text-green-600 text-sm text-center">Account created! Redirecting...</div>}
-          <button type="submit" className="w-full py-2 rounded-lg bg-pink-500 text-white font-semibold hover:bg-pink-600 transition" disabled={isLoading}>{isLoading ? "Registering..." : "Register"}</button>
-        </form>
-        <div className="text-center mt-4 text-sm">
-          Already have an account? <button onClick={onClose} className="text-indigo-600 font-semibold">Login</button>
-        </div>
-      </div>
-    </div>
-  );
-}
+  const handleLoginChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setLoginData(prev => ({ ...prev, [name]: value }));
+    setLoginError("");
+  };
 
-const API_URL = {
-  SIGNIN: `${process.env.NEXT_PUBLIC_HOSTNAME}api/auth/signin`,
-};
+  const handleSignupChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    if (name === "mobileNumber" && value.length > 10) return;
+    setSignupData(prev => ({ ...prev, [name]: value }));
+    setSignupError("");
+  };
 
-const ROUTES = {
-  HOME_SCREEN: '/home',
-};
-
-interface LoginResponse {
-  data: any; // Replace with your actual response type
-}
-
-export default function Home() {
-  const router = useRouter();
-  const [userName, setUserName] = useState("");
-  const [password, setPassword] = useState("");
-  const [isError, setIsError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [inValidUser, setInValidUser] = useState(false);
-
-  const triggerLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!userName || !password) {
-      setIsError(true);
-      setInValidUser(false);
+    setLoginError("");
+
+    if (!loginData.email || !loginData.password) {
+      setLoginError("Email and password are required");
       return;
     }
-    setIsError(false);
-    setInValidUser(false);
-    setIsLoading(true);
-    axios
-      .post<LoginResponse>(API_URL.SIGNIN, {
-        username: userName,
-        password: password,
-      })
-      .then((response: AxiosResponse<LoginResponse>) => {
-        setIsLoading(false);
-        // TODO: Add your user info dispatch here if needed
-        router.push(ROUTES.HOME_SCREEN);
-      })
-      .catch((error: Error) => {
-        setIsLoading(false);
-        setInValidUser(true);
-        console.log(error);
+
+    if (!validateEmail(loginData.email)) {
+      setLoginError("Invalid email format");
+      return;
+    }
+
+    setIsLoginLoading(true);
+
+    try {
+      const response: AxiosResponse<LoginResponse> = await axios.post(API_URL.SIGNIN, {
+        email: loginData.email,
+        password: loginData.password,
       });
+
+      if (response.data.success) {
+        // Store token in localStorage
+        localStorage.setItem('token', response.data.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.data.user));
+        
+        // Redirect to home
+        router.push(ROUTES.TEAM_PLAN);
+      } else {
+        setLoginError(response.data.message || "Login failed");
+      }
+    } catch (error: any) {
+      console.error('Login error:', error);
+      setLoginError(
+        error.response?.data?.message || 
+        error.response?.data?.error || 
+        "Invalid email or password"
+      );
+    } finally {
+      setIsLoginLoading(false);
+    }
+  };
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSignupError("");
+    setSignupSuccess(false);
+
+    // Validation
+    if (!signupData.firstName || !signupData.lastName || !signupData.username || 
+        !signupData.email || !signupData.password || !signupData.confirmPassword) {
+      setSignupError("All fields are required");
+      return;
+    }
+
+    if (signupData.password !== signupData.confirmPassword) {
+      setSignupError("Passwords do not match");
+      return;
+    }
+
+    if (!validateEmail(signupData.email)) {
+      setSignupError("Invalid email format");
+      return;
+    }
+
+    if (!validatePassword(signupData.password)) {
+      setSignupError("Password must be at least 5 characters");
+      return;
+    }
+
+    if (signupData.mobileNumber && signupData.mobileNumber.length < 10) {
+      setSignupError("Invalid mobile number");
+      return;
+    }
+
+    setIsSignupLoading(true);
+
+    try {
+      const response: AxiosResponse<SignupResponse> = await axios.post(API_URL.SIGNUP, {
+        firstName: signupData.firstName,
+        lastName: signupData.lastName,
+        username: signupData.username,
+        email: signupData.email,
+        mobileNumber: signupData.mobileNumber,
+        password: signupData.password,
+      });
+
+      if (response.data.success) {
+        setSignupSuccess(true);
+        
+        // Store token in localStorage
+        localStorage.setItem('token', response.data.data.token);
+        localStorage.setItem('user', JSON.stringify(response.data.data.user));
+        
+        // Clear form
+        setSignupData({
+          firstName: "",
+          lastName: "",
+          username: "",
+          email: "",
+          mobileNumber: "",
+          password: "",
+          confirmPassword: "",
+        });
+
+        // Redirect after 2 seconds
+        setTimeout(() => {
+          router.push(ROUTES.TEAM_PLAN);
+        }, 2000);
+      } else {
+        setSignupError(response.data.message || "Registration failed");
+      }
+    } catch (error: any) {
+      console.error('Signup error:', error);
+      setSignupError(
+        error.response?.data?.message || 
+        error.response?.data?.error || 
+        "Registration failed"
+      );
+    } finally {
+      setIsSignupLoading(false);
+    }
   };
 
   const handleButtonHover = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -235,148 +268,400 @@ export default function Home() {
             fontSize: "28px",
             marginBottom: "30px",
             fontWeight: "700",
-          }}>Welcome Back</h2>
-          <form onSubmit={triggerLogin}>
-            <div style={{ marginBottom: "25px", position: "relative" }}>
-              <FaUser style={{
-                position: "absolute",
-                left: "15px",
-                top: "50%",
-                transform: "translateY(-50%)",
-                color: "#2980b9",
-                fontSize: "18px",
-              }} />
-              <input
-                type="text"
-                placeholder="Username"
-                value={userName}
-                onChange={(e) => setUserName(e.target.value)}
-                style={{
-                  width: "100%",
-                  padding: "15px 15px 15px 45px",
-                  borderRadius: "10px",
-                  border: "2px solid #e3e3e3",
-                  fontSize: "16px",
-                  transition: "all 0.3s ease",
-                  outline: "none",
-                }}
-              />
-            </div>
-            <div style={{ marginBottom: "25px", position: "relative" }}>
-              <FaLock style={{
-                position: "absolute",
-                left: "15px",
-                top: "50%",
-                transform: "translateY(-50%)",
-                color: "#2980b9",
-                fontSize: "18px",
-              }} />
-              <input
-                type="password"
-                placeholder="Password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                style={{
-                  width: "100%",
-                  padding: "15px 15px 15px 45px",
-                  borderRadius: "10px",
-                  border: "2px solid #e3e3e3",
-                  fontSize: "16px",
-                  transition: "all 0.3s ease",
-                  outline: "none",
-                }}
-              />
-            </div>
-            <div style={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              marginBottom: "25px",
-              fontSize: "14px",
-            }}>
-              <label style={{
-                display: "flex",
-                alignItems: "center",
-                color: "#666",
-                cursor: "pointer",
-              }}>
+          }}>
+            {isLoginMode ? "Welcome Back" : "Create Account"}
+          </h2>
+
+          {isLoginMode ? (
+            // Login Form
+            <form onSubmit={handleLogin}>
+              <div style={{ marginBottom: "25px", position: "relative" }}>
+                <FaEnvelope style={{
+                  position: "absolute",
+                  left: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "#2980b9",
+                  fontSize: "18px",
+                }} />
                 <input
-                  type="checkbox"
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={loginData.email}
+                  onChange={handleLoginChange}
                   style={{
-                    marginRight: "8px",
-                    cursor: "pointer",
+                    width: "100%",
+                    padding: "15px 15px 15px 45px",
+                    borderRadius: "10px",
+                    border: "2px solid #e3e3e3",
+                    fontSize: "16px",
+                    transition: "all 0.3s ease",
+                    outline: "none",
                   }}
                 />
-                Remember me
-              </label>
-              <a
-                href="#"
-                style={{
+              </div>
+              <div style={{ marginBottom: "25px", position: "relative" }}>
+                <FaLock style={{
+                  position: "absolute",
+                  left: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
                   color: "#2980b9",
-                  textDecoration: "none",
+                  fontSize: "18px",
+                }} />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
+                  value={loginData.password}
+                  onChange={handleLoginChange}
+                  style={{
+                    width: "100%",
+                    padding: "15px 15px 15px 45px",
+                    borderRadius: "10px",
+                    border: "2px solid #e3e3e3",
+                    fontSize: "16px",
+                    transition: "all 0.3s ease",
+                    outline: "none",
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: "absolute",
+                    right: "15px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    color: "#666",
+                  }}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+              {loginError && (
+                <div style={{
+                  color: "#e74c3c",
+                  marginBottom: "15px",
+                  fontSize: "14px",
+                }}>
+                  {loginError}
+                </div>
+              )}
+              <button
+                type="submit"
+                style={{
+                  width: "100%",
+                  padding: "15px",
+                  borderRadius: "10px",
+                  border: "none",
+                  backgroundColor: "#2980b9",
+                  color: "white",
+                  fontSize: "16px",
                   fontWeight: "600",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  marginBottom: "20px",
                 }}
+                onMouseOver={handleButtonHover}
+                onMouseOut={handleButtonOut}
+                disabled={isLoginLoading}
               >
-                Forgot Password?
-              </a>
-            </div>
-            {isError && (
-              <div style={{
-                color: "#e74c3c",
-                marginBottom: "15px",
-                fontSize: "14px",
-              }}>
-                Email or Password cannot be empty
+                {isLoginLoading ? "Signing in..." : "Sign In"}
+              </button>
+            </form>
+          ) : (
+            // Signup Form
+            <form onSubmit={handleSignup}>
+              <div style={{ display: "flex", gap: "10px", marginBottom: "15px" }}>
+                <div style={{ flex: 1, position: "relative" }}>
+                  <FaUser style={{
+                    position: "absolute",
+                    left: "15px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    color: "#2980b9",
+                    fontSize: "16px",
+                  }} />
+                  <input
+                    type="text"
+                    name="firstName"
+                    placeholder="First Name"
+                    value={signupData.firstName}
+                    onChange={handleSignupChange}
+                    style={{
+                      width: "100%",
+                      padding: "12px 12px 12px 40px",
+                      borderRadius: "10px",
+                      border: "2px solid #e3e3e3",
+                      fontSize: "14px",
+                      transition: "all 0.3s ease",
+                      outline: "none",
+                    }}
+                  />
+                </div>
+                <div style={{ flex: 1, position: "relative" }}>
+                  <FaUser style={{
+                    position: "absolute",
+                    left: "15px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    color: "#2980b9",
+                    fontSize: "16px",
+                  }} />
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Last Name"
+                    value={signupData.lastName}
+                    onChange={handleSignupChange}
+                    style={{
+                      width: "100%",
+                      padding: "12px 12px 12px 40px",
+                      borderRadius: "10px",
+                      border: "2px solid #e3e3e3",
+                      fontSize: "14px",
+                      transition: "all 0.3s ease",
+                      outline: "none",
+                    }}
+                  />
+                </div>
               </div>
-            )}
-            {inValidUser && (
-              <div style={{
-                color: "#e74c3c",
-                marginBottom: "15px",
-                fontSize: "14px",
-              }}>
-                Invalid Username / Password
+              <div style={{ marginBottom: "15px", position: "relative" }}>
+                <FaUser style={{
+                  position: "absolute",
+                  left: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "#2980b9",
+                  fontSize: "18px",
+                }} />
+                <input
+                  type="text"
+                  name="username"
+                  placeholder="Username"
+                  value={signupData.username}
+                  onChange={handleSignupChange}
+                  style={{
+                    width: "100%",
+                    padding: "15px 15px 15px 45px",
+                    borderRadius: "10px",
+                    border: "2px solid #e3e3e3",
+                    fontSize: "16px",
+                    transition: "all 0.3s ease",
+                    outline: "none",
+                  }}
+                />
               </div>
-            )}
-            <button
-              type="submit"
-              style={{
-                width: "100%",
-                padding: "15px",
-                borderRadius: "10px",
-                border: "none",
-                backgroundColor: "#2980b9",
-                color: "white",
-                fontSize: "16px",
-                fontWeight: "600",
-                cursor: "pointer",
-                transition: "all 0.3s ease",
-                marginBottom: "20px",
-              }}
-              onMouseOver={handleButtonHover}
-              onMouseOut={handleButtonOut}
-              disabled={isLoading}
-            >
-              {isLoading ? "Signing in..." : "Sign In"}
-            </button>
-          </form>
+              <div style={{ marginBottom: "15px", position: "relative" }}>
+                <FaEnvelope style={{
+                  position: "absolute",
+                  left: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "#2980b9",
+                  fontSize: "18px",
+                }} />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={signupData.email}
+                  onChange={handleSignupChange}
+                  style={{
+                    width: "100%",
+                    padding: "15px 15px 15px 45px",
+                    borderRadius: "10px",
+                    border: "2px solid #e3e3e3",
+                    fontSize: "16px",
+                    transition: "all 0.3s ease",
+                    outline: "none",
+                  }}
+                />
+              </div>
+              <div style={{ marginBottom: "15px", position: "relative" }}>
+                <FaPhone style={{
+                  position: "absolute",
+                  left: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "#2980b9",
+                  fontSize: "18px",
+                }} />
+                <input
+                  type="text"
+                  name="mobileNumber"
+                  placeholder="Mobile Number (optional)"
+                  value={signupData.mobileNumber}
+                  onChange={handleSignupChange}
+                  maxLength={10}
+                  style={{
+                    width: "100%",
+                    padding: "15px 15px 15px 45px",
+                    borderRadius: "10px",
+                    border: "2px solid #e3e3e3",
+                    fontSize: "16px",
+                    transition: "all 0.3s ease",
+                    outline: "none",
+                  }}
+                />
+              </div>
+              <div style={{ marginBottom: "15px", position: "relative" }}>
+                <FaLock style={{
+                  position: "absolute",
+                  left: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "#2980b9",
+                  fontSize: "18px",
+                }} />
+                <input
+                  type={showPassword ? "text" : "password"}
+                  name="password"
+                  placeholder="Password"
+                  value={signupData.password}
+                  onChange={handleSignupChange}
+                  style={{
+                    width: "100%",
+                    padding: "15px 15px 15px 45px",
+                    borderRadius: "10px",
+                    border: "2px solid #e3e3e3",
+                    fontSize: "16px",
+                    transition: "all 0.3s ease",
+                    outline: "none",
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  style={{
+                    position: "absolute",
+                    right: "15px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    color: "#666",
+                  }}
+                >
+                  {showPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+              <div style={{ marginBottom: "15px", position: "relative" }}>
+                <FaLock style={{
+                  position: "absolute",
+                  left: "15px",
+                  top: "50%",
+                  transform: "translateY(-50%)",
+                  color: "#2980b9",
+                  fontSize: "18px",
+                }} />
+                <input
+                  type={showConfirmPassword ? "text" : "password"}
+                  name="confirmPassword"
+                  placeholder="Confirm Password"
+                  value={signupData.confirmPassword}
+                  onChange={handleSignupChange}
+                  style={{
+                    width: "100%",
+                    padding: "15px 15px 15px 45px",
+                    borderRadius: "10px",
+                    border: "2px solid #e3e3e3",
+                    fontSize: "16px",
+                    transition: "all 0.3s ease",
+                    outline: "none",
+                  }}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+                  style={{
+                    position: "absolute",
+                    right: "15px",
+                    top: "50%",
+                    transform: "translateY(-50%)",
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    color: "#666",
+                  }}
+                >
+                  {showConfirmPassword ? <FaEyeSlash /> : <FaEye />}
+                </button>
+              </div>
+              {signupError && (
+                <div style={{
+                  color: "#e74c3c",
+                  marginBottom: "15px",
+                  fontSize: "14px",
+                }}>
+                  {signupError}
+                </div>
+              )}
+              {signupSuccess && (
+                <div style={{
+                  color: "#27ae60",
+                  marginBottom: "15px",
+                  fontSize: "14px",
+                }}>
+                  Account created successfully! Redirecting...
+                </div>
+              )}
+              <button
+                type="submit"
+                style={{
+                  width: "100%",
+                  padding: "15px",
+                  borderRadius: "10px",
+                  border: "none",
+                  backgroundColor: "#2980b9",
+                  color: "white",
+                  fontSize: "16px",
+                  fontWeight: "600",
+                  cursor: "pointer",
+                  transition: "all 0.3s ease",
+                  marginBottom: "20px",
+                }}
+                onMouseOver={handleButtonHover}
+                onMouseOut={handleButtonOut}
+                disabled={isSignupLoading}
+              >
+                {isSignupLoading ? "Creating Account..." : "Create Account"}
+              </button>
+            </form>
+          )}
+
           <div style={{
             borderTop: "1px solid #e3e3e3",
             paddingTop: "20px",
             marginTop: "10px",
           }}>
             <span style={{ color: "#666", fontSize: "14px" }}>
-              Don't have an account?{" "}
-              <a
-                href="/signup"
+              {isLoginMode ? "Don't have an account? " : "Already have an account? "}
+              <button
+                onClick={() => {
+                  setIsLoginMode(!isLoginMode);
+                  setLoginError("");
+                  setSignupError("");
+                  setSignupSuccess(false);
+                }}
                 style={{
                   color: "#2980b9",
                   textDecoration: "none",
                   fontWeight: "600",
+                  background: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontSize: "14px",
                 }}
               >
-                Sign up
-              </a>
+                {isLoginMode ? "Sign up" : "Sign in"}
+              </button>
             </span>
           </div>
         </div>
