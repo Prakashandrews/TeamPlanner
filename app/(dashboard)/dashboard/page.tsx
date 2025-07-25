@@ -1,113 +1,186 @@
-import Image from "next/image";
+"use client";
+import { useState } from "react";
 
-export default function Home() {
+// Placeholder data
+const SUMMARY = {
+  members: 30,
+  onLeave: 3,
+  features: 12,
+};
+const UPCOMING_LEAVES = [
+  { name: "Member 2", date: "2024-07-10", reason: "Vacation" },
+  { name: "Member 5", date: "2024-07-12", reason: "Sick Leave" },
+  { name: "Member 8", date: "2024-07-13", reason: "Personal" },
+];
+const RECENT_ACTIVITY = [
+  { type: "member", text: "Added Member 31" },
+  { type: "leave", text: "Leave added for Member 5" },
+  { type: "feature", text: "Feature 'API Gateway' moved to Q3" },
+];
+const TEAM_OVERVIEW = Array.from({ length: 5 }, (_, i) => ({
+  name: `Member ${i + 1}`,
+  status: i === 1 ? "On Leave" : "Active",
+  role: i % 2 === 0 ? "Developer" : "QA",
+}));
+
+export default function DashboardPage() {
+  const [showWelcome, setShowWelcome] = useState(true);
+
   return (
-    <div className="p-6">
-      <h3 className="text-3xl font-medium text-gray-700 dark:text-white">Dashboard</h3>
-
-      <div className="mt-4">
-        <div className="flex flex-wrap -mx-6">
-          {/* Stats Card 1 */}
-          <div className="w-full px-6 sm:w-1/2 xl:w-1/3">
-            <div className="flex items-center px-5 py-6 bg-white dark:bg-gray-800 rounded-md shadow-sm">
-              <div className="p-3 bg-indigo-600 bg-opacity-75 rounded-full">
-                <svg className="w-8 h-8 text-white" viewBox="0 0 28 30" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M18.2 9.08889C18.2 11.5373 16.3196 13.5222 14 13.5222C11.6804 13.5222 9.79999 11.5373 9.79999 9.08889C9.79999 6.64043 11.6804 4.65556 14 4.65556C16.3196 4.65556 18.2 6.64043 18.2 9.08889Z" fill="currentColor"/>
-                  <path d="M25.2 12.0444C25.2 13.6768 23.9464 15 22.4 15C20.8536 15 19.6 13.6768 19.6 12.0444C19.6 10.4121 20.8536 9.08889 22.4 9.08889C23.9464 9.08889 25.2 10.4121 25.2 12.0444Z" fill="currentColor"/>
-                  <path d="M19.6 22.3889C19.6 19.1243 17.0927 16.4778 14 16.4778C10.9072 16.4778 8.39999 19.1243 8.39999 22.3889V26.8222H19.6V22.3889Z" fill="currentColor"/>
-                  <path d="M8.39999 12.0444C8.39999 13.6768 7.14639 15 5.59999 15C4.05359 15 2.79999 13.6768 2.79999 12.0444C2.79999 10.4121 4.05359 9.08889 5.59999 9.08889C7.14639 9.08889 8.39999 10.4121 8.39999 12.0444Z" fill="currentColor"/>
-                  <path d="M22.4 26.8222V22.3889C22.4 20.8312 22.0195 19.3671 21.351 18.0949C21.6863 18.0039 22.0378 17.9556 22.4 17.9556C24.7197 17.9556 26.6 19.9404 26.6 22.3889V26.8222H22.4Z" fill="currentColor"/>
-                  <path d="M6.64896 18.0949C5.98058 19.3671 5.59999 20.8312 5.59999 22.3889V26.8222H1.39999V22.3889C1.39999 19.9404 3.2804 17.9556 5.59999 17.9556C5.96219 17.9556 6.31367 18.0039 6.64896 18.0949Z" fill="currentColor"/>
-                </svg>
+    <div className="p-6 space-y-8">
+      {/* Welcome Section for First-Time Users */}
+      {showWelcome && (
+        <div className="bg-gradient-to-r from-indigo-500 to-purple-600 rounded-xl p-6 text-white shadow-lg">
+          <div className="flex justify-between items-start">
+            <div className="flex-1">
+                             <h1 className="text-2xl font-bold mb-2">Welcome to TeamSpace! 👋</h1>
+              <p className="text-indigo-100 mb-4">Get started with managing your team efficiently. Here's what you can do:</p>
+              
+              {/* Quick Action Cards */}
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-4">
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                  <div className="flex items-center mb-2">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-3">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                      </svg>
+                    </div>
+                    <h3 className="font-semibold">Team Members</h3>
+                  </div>
+                  <p className="text-sm text-indigo-100">Add and manage your team members with detailed profiles</p>
+                </div>
+                
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                  <div className="flex items-center mb-2">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-3">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                      </svg>
+                    </div>
+                    <h3 className="font-semibold">Team Leaves</h3>
+                  </div>
+                  <p className="text-sm text-indigo-100">Track leave requests and manage team availability</p>
+                </div>
+                
+                <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                  <div className="flex items-center mb-2">
+                    <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center mr-3">
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                      </svg>
+                    </div>
+                    <h3 className="font-semibold">Team Planning</h3>
+                  </div>
+                  <p className="text-sm text-indigo-100">Plan features and track team capacity by quarters</p>
+                </div>
               </div>
-              <div className="mx-5">
-                <h4 className="text-2xl font-semibold text-gray-700 dark:text-white">8,282</h4>
-                <div className="text-gray-500 dark:text-gray-400">New Users</div>
+              
+              {/* Getting Started Steps */}
+              <div className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20">
+                <h3 className="font-semibold mb-3">Getting Started:</h3>
+                <ol className="text-sm text-indigo-100 space-y-2">
+                  <li className="flex items-start">
+                    <span className="bg-white/20 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-3 mt-0.5">1</span>
+                    <span>Add your team members in the <strong>Team Members</strong> tab</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="bg-white/20 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-3 mt-0.5">2</span>
+                    <span>Set up leave tracking in the <strong>Team Leaves</strong> tab</span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="bg-white/20 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-3 mt-0.5">3</span>
+                    <span>Plan your features and track capacity in <strong>Team Planning</strong></span>
+                  </li>
+                  <li className="flex items-start">
+                    <span className="bg-white/20 rounded-full w-5 h-5 flex items-center justify-center text-xs font-bold mr-3 mt-0.5">4</span>
+                    <span>Configure your preferences in <strong>Settings</strong></span>
+                  </li>
+                </ol>
               </div>
             </div>
+            
+            {/* Close Button */}
+            <button
+              onClick={() => setShowWelcome(false)}
+              className="text-white/80 hover:text-white transition-colors duration-200"
+            >
+              <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
           </div>
+        </div>
+      )}
 
-          {/* Stats Card 2 */}
-          <div className="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3 sm:mt-0">
-            <div className="flex items-center px-5 py-6 bg-white dark:bg-gray-800 rounded-md shadow-sm">
-              <div className="p-3 bg-blue-600 bg-opacity-75 rounded-full">
-                <svg className="w-8 h-8 text-white" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M4.19999 1.4C3.4268 1.4 2.79999 2.02681 2.79999 2.8C2.79999 3.57319 3.4268 4.2 4.19999 4.2H5.9069L6.33468 5.91114C6.33917 5.93092 6.34409 5.95055 6.34941 5.97001L8.24953 13.5705L6.99992 14.8201C5.23602 16.584 6.48528 19.6 8.97981 19.6H21C21.7731 19.6 22.4 18.9732 22.4 18.2C22.4 17.4268 21.7731 16.8 21 16.8H8.97983L10.3798 15.4H19.6C20.1303 15.4 20.615 15.1004 20.8521 14.6261L25.0521 6.22609C25.2691 5.79212 25.246 5.27673 24.991 4.86398C24.7357 4.45123 24.2852 4.2 23.8 4.2H8.79308L8.35818 2.46044C8.20238 1.83722 7.64241 1.4 6.99999 1.4H4.19999Z" fill="currentColor"/>
-                  <path d="M22.4 23.1C22.4 24.2598 21.4598 25.2 20.3 25.2C19.1403 25.2 18.2 24.2598 18.2 23.1C18.2 21.9402 19.1403 21 20.3 21C21.4598 21 22.4 21.9402 22.4 23.1Z" fill="currentColor"/>
-                  <path d="M9.1 25.2C10.2598 25.2 11.2 24.2598 11.2 23.1C11.2 21.9402 10.2598 21 9.1 21C7.9402 21 7 21.9402 7 23.1C7 24.2598 7.9402 25.2 9.1 25.2Z" fill="currentColor"/>
-                </svg>
-              </div>
-              <div className="mx-5">
-                <h4 className="text-2xl font-semibold text-gray-700 dark:text-white">200,521</h4>
-                <div className="text-gray-500 dark:text-gray-400">Total Orders</div>
-              </div>
-            </div>
-          </div>
-
-          {/* Stats Card 3 */}
-          <div className="w-full px-6 mt-6 sm:w-1/2 xl:w-1/3 xl:mt-0">
-            <div className="flex items-center px-5 py-6 bg-white dark:bg-gray-800 rounded-md shadow-sm">
-              <div className="p-3 bg-pink-600 bg-opacity-75 rounded-full">
-                <svg className="w-8 h-8 text-white" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                  <path d="M6.99998 11.2H21L22.4 23.8H5.59998L6.99998 11.2Z" fill="currentColor" stroke="currentColor" strokeWidth="2" strokeLinejoin="round"/>
-                  <path d="M9.79999 8.4C9.79999 6.08041 11.6804 4.2 14 4.2C16.3196 4.2 18.2 6.08041 18.2 8.4V12.6C18.2 14.9197 16.3196 16.8 14 16.8C11.6804 16.8 9.79999 14.9197 9.79999 12.6V8.4Z" stroke="currentColor" strokeWidth="2"/>
-                </svg>
-              </div>
-              <div className="mx-5">
-                <h4 className="text-2xl font-semibold text-gray-700 dark:text-white">215,542</h4>
-                <div className="text-gray-500 dark:text-gray-400">Available Products</div>
-              </div>
-            </div>
-          </div>
+      {/* Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 flex flex-col items-center">
+          <span className="text-3xl font-bold text-indigo-600">{SUMMARY.members}</span>
+          <span className="mt-2 text-gray-700 dark:text-gray-200">Team Members</span>
+        </div>
+        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 flex flex-col items-center">
+          <span className="text-3xl font-bold text-pink-600">{SUMMARY.onLeave}</span>
+          <span className="mt-2 text-gray-700 dark:text-gray-200">On Leave Today</span>
+        </div>
+        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6 flex flex-col items-center">
+          <span className="text-3xl font-bold text-green-600">{SUMMARY.features}</span>
+          <span className="mt-2 text-gray-700 dark:text-gray-200">Features In Progress</span>
         </div>
       </div>
 
-      <div className="mt-8" />
+      {/* Upcoming Leaves & Recent Activity */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">Upcoming Leaves</h2>
+          <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+            {UPCOMING_LEAVES.map((leave, idx) => (
+              <li key={idx} className="py-2 flex justify-between items-center">
+                <span className="font-medium text-gray-900 dark:text-white">{leave.name}</span>
+                <span className="text-gray-500 dark:text-gray-400">{leave.date}</span>
+                <span className="px-2 py-1 text-xs rounded-full bg-indigo-100 dark:bg-indigo-900 text-indigo-800 dark:text-indigo-200">{leave.reason}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+          <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">Recent Activity</h2>
+          <ul className="divide-y divide-gray-200 dark:divide-gray-700">
+            {RECENT_ACTIVITY.map((item, idx) => (
+              <li key={idx} className="py-2 flex items-center gap-2">
+                <span className={`inline-block w-2 h-2 rounded-full ${item.type === "member" ? "bg-indigo-500" : item.type === "leave" ? "bg-pink-500" : "bg-green-500"}`}></span>
+                <span className="text-gray-700 dark:text-gray-200">{item.text}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
 
-      {/* Table */}
-      <div className="flex flex-col mt-8">
-        <div className="py-2 -my-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
-          <div className="inline-block min-w-full overflow-hidden align-middle border-b border-gray-200 dark:border-gray-700 shadow sm:rounded-lg">
-            <table className="min-w-full">
-              <thead>
-                <tr>
-                  <th className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 dark:text-gray-400 uppercase border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">Name</th>
-                  <th className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 dark:text-gray-400 uppercase border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">Title</th>
-                  <th className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 dark:text-gray-400 uppercase border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">Status</th>
-                  <th className="px-6 py-3 text-xs font-medium leading-4 tracking-wider text-left text-gray-500 dark:text-gray-400 uppercase border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800">Role</th>
-                  <th className="px-6 py-3 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800" />
+      {/* Team Overview Table */}
+      <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+        <h2 className="text-lg font-semibold mb-4 text-gray-700 dark:text-gray-200">Team Overview</h2>
+        <div className="overflow-x-auto">
+          <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <thead className="bg-gray-50 dark:bg-gray-700">
+              <tr>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Name</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Status</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">Role</th>
+              </tr>
+            </thead>
+            <tbody className="bg-white dark:bg-gray-800 divide-y divide-gray-200 dark:divide-gray-700">
+              {TEAM_OVERVIEW.map((member, idx) => (
+                <tr key={idx}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-white">{member.name}</td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${member.status === "Active" ? "bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200" : "bg-pink-100 dark:bg-pink-900 text-pink-800 dark:text-pink-200"}`}>
+                      {member.status}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500 dark:text-gray-400">{member.role}</td>
                 </tr>
-              </thead>
-              <tbody className="bg-white dark:bg-gray-800">
-                {[...Array(5)].map((_, index) => (
-                  <tr key={index}>
-                    <td className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 whitespace-nowrap">
-                      <div className="flex items-center">
-                        <div className="flex-shrink-0 w-10 h-10">
-                          <img className="w-10 h-10 rounded-full" src="https://ui-avatars.com/api/?name=User&background=2980b9&color=fff&size=40" alt="User Avatar" />
-                        </div>
-                        <div className="ml-4">
-                          <div className="text-sm font-medium leading-5 text-gray-900 dark:text-white">John Doe</div>
-                          <div className="text-sm leading-5 text-gray-500 dark:text-gray-400">john@example.com</div>
-                        </div>
-                      </div>
-                    </td>
-                    <td className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 whitespace-nowrap">
-                      <div className="text-sm leading-5 text-gray-900 dark:text-white">Software Engineer</div>
-                      <div className="text-sm leading-5 text-gray-500 dark:text-gray-400">Web dev</div>
-                    </td>
-                    <td className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 whitespace-nowrap">
-                      <span className="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 dark:bg-green-900 dark:text-green-200 rounded-full">Active</span>
-                    </td>
-                    <td className="px-6 py-4 text-sm leading-5 text-gray-500 dark:text-gray-400 border-b border-gray-200 dark:border-gray-700 whitespace-nowrap">Owner</td>
-                    <td className="px-6 py-4 text-sm font-medium leading-5 text-right border-b border-gray-200 dark:border-gray-700 whitespace-nowrap">
-                      <a href="#" className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-900 dark:hover:text-indigo-300">Edit</a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>

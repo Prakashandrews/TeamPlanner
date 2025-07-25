@@ -385,7 +385,7 @@ export default function NewLandingPage() {
           {/* Header */}
           <header className="w-full max-w-7xl mx-auto px-4 py-6 flex items-center justify-between">
             <div className="flex items-center gap-2">
-              <span className="font-bold text-2xl text-white">TeamPulse</span>
+                              <span className="font-bold text-2xl text-white">TeamSpace</span>
             </div>
             <nav className="hidden md:flex gap-8 text-white/90 text-sm font-medium">
               <button className="hover:text-white transition">Features</button>
@@ -404,7 +404,7 @@ export default function NewLandingPage() {
             <div className="w-full max-w-7xl mx-auto px-4">
               <div className="max-w-2xl">
                 <h1 className="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
-                  Keep Your Team's Pulse Strong
+                  Keep Your Team's Space Organized
                 </h1>
                 <p className="text-lg md:text-xl text-white/90 mb-8">
                   Monitor, optimize, and enhance your team's performance with real-time insights and intelligent planning.
@@ -541,7 +541,7 @@ export default function NewLandingPage() {
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
                           </svg>
                         </div>
-                        <span className="text-white font-semibold">TeamPulse Dashboard</span>
+                        <span className="text-white font-semibold">TeamSpace Dashboard</span>
                       </div>
                       <div className="flex gap-2">
                         <button className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center hover:bg-white/30 transition">
@@ -668,7 +668,7 @@ export default function NewLandingPage() {
             Ready to Transform Your Team Planning?
           </h2>
           <p className="text-lg text-white/90 mb-8 max-w-2xl mx-auto">
-            Join thousands of teams who have improved their productivity and resource management with TeamPulse.
+                            Join thousands of teams who have improved their productivity and resource management with TeamSpace.
           </p>
           <div className="flex gap-4 justify-center">
             <button onClick={handleRegisterClick} className="px-8 py-3 bg-white text-blue-900 rounded-lg font-semibold hover:bg-blue-50 transition">
@@ -686,7 +686,7 @@ export default function NewLandingPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <span className="font-bold text-xl text-white mb-4 block">TeamPulse</span>
+              <span className="font-bold text-xl text-white mb-4 block">TeamSpace</span>
               <p className="text-gray-400">
                 Real-time team insights and intelligent resource management for modern organizations.
               </p>
@@ -720,7 +720,7 @@ export default function NewLandingPage() {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-12 pt-8 text-center text-gray-400">
-            <p>&copy; 2024 TeamPulse. All rights reserved.</p>
+            <p>&copy; 2024 TeamSpace. All rights reserved.</p>
           </div>
         </div>
       </footer>
