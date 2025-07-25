@@ -127,7 +127,7 @@ const SPRINTS_2025 = [
 interface TeamPlan {
   id: number;
   epic: string;
-  team: 'YC' | 'FC';
+  team: 'Team-A' | 'Team-B';
   startDate?: string; // Make startDate optional
   sprint: string;
   sprintStart: string;
@@ -149,7 +149,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 1,
     epic: 'Core Platform Infrastructure',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-01-01',
     sprint: 'Q1-SPRINT-1',
     sprintStart: '2025-01-01',
@@ -167,7 +167,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 2,
     epic: 'Database Migration System',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-01-15',
     sprint: 'Q1-SPRINT-2',
     sprintStart: '2025-01-15',
@@ -185,7 +185,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 3,
     epic: 'API Gateway Implementation',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-02-01',
     sprint: 'Q1-SPRINT-3',
     sprintStart: '2025-02-01',
@@ -203,7 +203,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 4,
     epic: 'Security Framework',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-02-15',
     sprint: 'Q1-SPRINT-4',
     sprintStart: '2025-02-15',
@@ -221,7 +221,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 5,
     epic: 'Monitoring System',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-03-01',
     sprint: 'Q1-SPRINT-5',
     sprintStart: '2025-03-01',
@@ -239,7 +239,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 6,
     epic: 'Logging Infrastructure',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-03-15',
     sprint: 'Q1-SPRINT-6',
     sprintStart: '2025-03-15',
@@ -259,7 +259,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 7,
     epic: 'User Authentication System',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-04-01',
     sprint: 'Q2-SPRINT-1',
     sprintStart: '2025-04-01',
@@ -279,7 +279,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 8,
     epic: 'Mobile App Development',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-07-01',
     sprint: 'Q3-SPRINT-1',
     sprintStart: '2025-07-01',
@@ -297,7 +297,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 9,
     epic: 'Push Notification System',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-07-15',
     sprint: 'Q3-SPRINT-2',
     sprintStart: '2025-07-15',
@@ -315,7 +315,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 10,
     epic: 'Offline Mode Support',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-08-01',
     sprint: 'Q3-SPRINT-3',
     sprintStart: '2025-08-01',
@@ -333,7 +333,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 11,
     epic: 'Social Media Integration',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-08-15',
     sprint: 'Q3-SPRINT-4',
     sprintStart: '2025-08-15',
@@ -351,7 +351,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 12,
     epic: 'Voice Search Feature',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-09-01',
     sprint: 'Q3-SPRINT-5',
     sprintStart: '2025-09-01',
@@ -369,7 +369,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 13,
     epic: 'AR Product Visualization',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-09-15',
     sprint: 'Q3-SPRINT-6',
     sprintStart: '2025-09-15',
@@ -389,7 +389,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 14,
     epic: 'AI Recommendation Engine',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-10-01',
     sprint: 'Q4-SPRINT-1',
     sprintStart: '2025-10-01',
@@ -407,7 +407,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 15,
     epic: 'Chatbot Integration',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-10-15',
     sprint: 'Q4-SPRINT-2',
     sprintStart: '2025-10-15',
@@ -425,7 +425,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 16,
     epic: 'Predictive Analytics',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-11-01',
     sprint: 'Q4-SPRINT-3',
     sprintStart: '2025-11-01',
@@ -443,7 +443,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 17,
     epic: 'Blockchain Integration',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-11-15',
     sprint: 'Q4-SPRINT-4',
     sprintStart: '2025-11-15',
@@ -461,7 +461,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 18,
     epic: 'IoT Device Support',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-12-01',
     sprint: 'Q4-SPRINT-5',
     sprintStart: '2025-12-01',
@@ -479,7 +479,7 @@ const sampleData: TeamPlan[] = [
   {
     id: 19,
     epic: 'Performance Optimization',
-    team: 'YC',
+    team: 'Team-A',
     startDate: '2025-12-15',
     sprint: 'Q4-SPRINT-6',
     sprintStart: '2025-12-15',
@@ -730,7 +730,7 @@ type SortDirection = 'asc' | 'desc';
 // Removed releaseDate from NewFeatureForm as it's now calculated
 interface NewFeatureForm {
   epic: string;
-  team: 'YC' | 'FC';
+  team: 'Team-A' | 'Team-B';
   priority: 'High' | 'Medium' | 'Low';
   devEffort: number;
   qaEffort: number;
@@ -821,14 +821,14 @@ export default function TeamPlanningPage() {
   const [showTooltip, setShowTooltip] = useState<number | null>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
   const [activeView, setActiveView] = useState<'intakes' | 'table' | 'capacity' | 'timeline'>('table'); // Set default view to 'table' (Intakes)
-  const [filterTeam, setFilterTeam] = useState<'all' | 'YC' | 'FC'>('all');
+  const [filterTeam, setFilterTeam] = useState<'all' | 'Team-A' | 'Team-B'>('all');
   const [filterPriority, setFilterPriority] = useState<'all' | 'High' | 'Medium' | 'Low'>('all');
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editFeatureId, setEditFeatureId] = useState<number | null>(null);
   const [newFeature, setNewFeature] = useState<NewFeatureForm>(
     {
       epic: '',
-      team: 'YC',
+      team: 'Team-A',
       priority: 'Medium',
       devEffort: 0,
       qaEffort: 0,
@@ -841,7 +841,22 @@ export default function TeamPlanningPage() {
 
   // New state for quarter selection
   const QUARTERS = ['Q1 2025', 'Q2 2025', 'Q3 2025', 'Q4 2025']; // Define available quarters
-  const [selectedQuarter, setSelectedQuarter] = useState<string>(QUARTERS[1]); // Default to Q2 2025
+  // Determine the current quarter based on today's date
+  function getCurrentQuarterLabel() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = today.getMonth(); // 0-indexed
+    let quarter = 1;
+    if (month >= 0 && month <= 2) quarter = 1;
+    else if (month >= 3 && month <= 5) quarter = 2;
+    else if (month >= 6 && month <= 8) quarter = 3;
+    else if (month >= 9 && month <= 11) quarter = 4;
+    return `Q${quarter} ${year}`;
+  }
+  const [selectedQuarter, setSelectedQuarter] = useState<string>(() => {
+    const current = getCurrentQuarterLabel();
+    return QUARTERS.includes(current) ? current : QUARTERS[0];
+  });
 
   // Filtered sprints based on selected quarter
   const filteredSprints = SPRINTS_2025.filter(sprint => sprint.quarter === selectedQuarter.split(' ')[0]);
@@ -1254,7 +1269,7 @@ export default function TeamPlanningPage() {
     // Reset form state
     setNewFeature({
       epic: '',
-      team: 'YC',
+      team: 'Team-A',
       priority: 'Medium',
       devEffort: 0,
       qaEffort: 0,
@@ -1313,7 +1328,8 @@ export default function TeamPlanningPage() {
 
     // Group features by team for easier rendering
     const featuresByTeam: Record<string, TeamPlan[]> = {
-        'YC': filteredFeatures.filter(f => f.team === 'YC').sort((a, b) => a.epic.localeCompare(b.epic)), // Sort features alphabetically by epic
+        'Team-A': filteredFeatures.filter(f => f.team === 'Team-A').sort((a, b) => a.epic.localeCompare(b.epic)), // Sort features alphabetically by epic
+        'Team-B': filteredFeatures.filter(f => f.team === 'Team-B').sort((a, b) => a.epic.localeCompare(b.epic)), // Sort features alphabetically by epic
     };
 
     const handleDevMembersChange = (sprintLabel: string, value: number) => {
@@ -1394,7 +1410,7 @@ export default function TeamPlanningPage() {
     today.setHours(0, 0, 0, 0); // Set time to midnight for comparison
 
     // Sort features by start sprint
-    const sortedFeatures = [...featuresByTeam['YC']].sort((a, b) => {
+    const sortedFeatures = [...featuresByTeam['Team-A']].sort((a, b) => {
       const firstAllocatedSprintA = findFirstAllocatedSprint(a);
       const firstAllocatedSprintB = findFirstAllocatedSprint(b);
 
@@ -1418,10 +1434,10 @@ export default function TeamPlanningPage() {
 
     return (
       <div className="space-y-8">
-        {/* Render capacity table for YC team */}
-        {featuresByTeam['YC'].length > 0 && (
-          <div key="YC" className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 overflow-x-auto">
-            <h2 className="text-xl font-semibold text-gray-800 mb-4">YC Team Capacity Allocation</h2>
+        {/* Render capacity table for Team-A team */}
+        {featuresByTeam['Team-A'].length > 0 && (
+          <div key="Team-A" className="bg-white rounded-xl shadow-sm border border-gray-100 p-6 overflow-x-auto">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">Team-A Team Capacity Allocation</h2>
             <table className="min-w-full divide-y divide-gray-200">
               <thead>
                 <tr><th className="sticky left-0 bg-gray-50 px-4 py-2 text-left text-xs font-medium text-gray-700 uppercase tracking-wider z-10">S.No</th><th className="sticky left-[calc(theme(spacing.16))] bg-gray-50 px-4 py-2 text-left text-xs font-medium text-gray-700 uppercase tracking-wider z-10">Epic</th><th className="sticky left-[calc(theme(spacing.64))] bg-gray-50 px-4 py-2 text-left text-xs font-medium text-gray-700 uppercase tracking-wider z-10 border-l border-gray-200">Expected Release Date</th>
@@ -1566,7 +1582,7 @@ export default function TeamPlanningPage() {
     const handleCancel = () => {
       setNewFeature({
         epic: '',
-        team: 'YC',
+        team: 'Team-A',
         priority: 'Medium',
         devEffort: 0,
         qaEffort: 0,
@@ -1615,12 +1631,12 @@ export default function TeamPlanningPage() {
               <select
                 id="team"
                 value={newFeature.team}
-                onChange={(e) => setNewFeature({ ...newFeature, team: e.target.value as 'YC' | 'FC' })}
+                onChange={(e) => setNewFeature({ ...newFeature, team: e.target.value as 'Team-A' | 'Team-B' })}
                 className="w-full border border-gray-300 rounded-md shadow-sm p-2 focus:ring-blue-500 focus:border-blue-500"
                 required
               >
-                <option value="YC">YC</option>
-                <option value="FC">FC</option>
+                <option value="Team-A">Team-A</option>
+                <option value="Team-B">Team-B</option>
               </select>
             </div>
             <div>
@@ -1728,7 +1744,7 @@ export default function TeamPlanningPage() {
         initialCapacities[sprint.label] = { devMembers: 5, qaMembers: 5 };
       });
       setSprintCapacities(initialCapacities);
-      setSelectedQuarter(QUARTERS[1]); // Reset selected quarter to default
+      setSelectedQuarter(QUARTERS[0]); // Reset selected quarter to default
     }
   };
 
@@ -1813,12 +1829,12 @@ export default function TeamPlanningPage() {
               <label className="text-sm font-medium text-gray-700">Team:</label>
               <select
                 value={filterTeam}
-                onChange={(e) => setFilterTeam(e.target.value as 'all' | 'YC' | 'FC')}
+                onChange={(e) => setFilterTeam(e.target.value as 'all' | 'Team-A' | 'Team-B')}
                 className="border border-gray-300 rounded-md px-3 py-1.5 text-sm focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="all">All Teams</option>
-                <option value="YC">YC</option>
-                <option value="FC">FC</option>
+                <option value="Team-A">Team-A</option>
+                <option value="Team-B">Team-B</option>
               </select>
             </div>
             <div className="flex items-center space-x-2">
